@@ -1279,3 +1279,164 @@ footer {
         transform: none;
     }
 }
+
+
+/* Carousel Styles */
+.carousel-container {
+    position: relative;
+    max-width: 100%;
+    margin-bottom: 3rem;
+}
+
+.carousel-wrapper {
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.carousel-slide {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+/* Carousel Navigation Buttons */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 10;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+.carousel-btn:hover {
+    background: var(--secondary-color);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px var(--shadow-dark);
+}
+
+.carousel-btn-prev {
+    left: -25px;
+}
+
+.carousel-btn-next {
+    right: -25px;
+}
+
+/* Carousel Indicators */
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    background: var(--gray-medium);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.indicator.active {
+    background: var(--primary-color);
+    transform: scale(1.2);
+}
+
+.indicator:hover {
+    background: var(--secondary-color);
+}
+
+/* Update existing mobile-mockups for carousel */
+.mobile-mockups {
+    display: none; /* Hide the old grid layout */
+}
+
+/* Instagram Embed Styles - Updated for carousel */
+.instagram-embed {
+    position: relative;
+    transition: var(--transition);
+    width: 100%;
+    max-width: 400px;
+    height: 600px;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 20px var(--shadow);
+    margin: 0 auto;
+}
+
+/* Responsive Design for Carousel */
+@media (max-width: 768px) {
+    .carousel-slide {
+        max-width: 320px;
+    }
+    
+    .instagram-embed {
+        height: 500px;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .carousel-btn-prev {
+        left: -20px;
+    }
+    
+    .carousel-btn-next {
+        right: -20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-slide {
+        max-width: 280px;
+    }
+    
+    .instagram-embed {
+        height: 450px;
+    }
+    
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .carousel-btn-prev {
+        left: -17px;
+    }
+    
+    .carousel-btn-next {
+        right: -17px;
+    }
+    
+    .carousel-track {
+        gap: 1rem;
+        padding: 0.5rem;
+    }
+}

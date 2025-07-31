@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initTypewriterEffect();
     initCountUpAnimations();
     initParallaxEffect();
+    initInstagramCarousel(); // Add this line!
 });
 
 // Smooth scrolling for navigation links
@@ -444,3 +445,143 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
+
+// Remove the duplicate DOMContentLoaded listener (lines 449-461)
+// The duplicate listener should be deleted:
+/*
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all functionality
+    initSmoothScrolling();
+    initScrollAnimations();
+    initHeaderScrollEffect();
+    initMobileMenu();
+    initInteractiveElements();
+    initClickTracking();
+    initScrollProgress();
+    initTypewriterEffect();
+    initCountUpAnimations();
+    initParallaxEffect();
+});
+*/
+
+// Instagram Carousel functionality
+function initInstagramCarousel() {
+    const carousel = document.getElementById('instagramCarousel');
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const indicators = document.querySelectorAll('.indicator');
+    
+    // Add error checking
+    if (!carousel || !slides.length || !prevBtn || !nextBtn) {
+        console.error('Carousel elements not found');
+        return;
+    }
+    
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+    
+    // Update carousel position
+    function updateCarousel() {
+        const slideWidth = slides[0].offsetWidth + 32; // Include gap
+        carousel.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+        
+        // Update indicators
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === currentSlide);
+        });
+    }
+    
+    // Next slide
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateCarousel();
+    }
+    
+    // Previous slide
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateCarousel();
+    }
+    
+    // Go to specific slide
+    function goToSlide(slideIndex) {
+        currentSlide = slideIndex;
+        updateCarousel();
+    }
+    
+    // Event listeners
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+    
+    // Indicator clicks
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => goToSlide(index));
+    });
+    
+    // Auto-play (optional)
+    let autoPlayInterval;
+    
+    function startAutoPlay() {
+        autoPlayInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+    }
+    
+    function stopAutoPlay() {
+        clearInterval(autoPlayInterval);
+    }
+    
+    // Start auto-play
+    startAutoPlay();
+    
+    // Pause auto-play on hover
+    carousel.addEventListener('mouseenter', stopAutoPlay);
+    carousel.addEventListener('mouseleave', startAutoPlay);
+    
+    // Touch/swipe support for mobile
+    let startX = 0;
+    let isDragging = false;
+    
+    carousel.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+        stopAutoPlay();
+    });
+    
+    carousel.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+    });
+    
+    carousel.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        
+        const endX = e.changedTouches[0].clientX;
+        const diffX = startX - endX;
+        
+        if (Math.abs(diffX) > 50) { // Minimum swipe distance
+            if (diffX > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        }
+        
+        isDragging = false;
+        startAutoPlay();
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            prevSlide();
+        } else if (e.key === 'ArrowRight') {
+            nextSlide();
+        }
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', debounce(updateCarousel, 250));
+    
+    // Initial setup
+    updateCarousel();
+}
